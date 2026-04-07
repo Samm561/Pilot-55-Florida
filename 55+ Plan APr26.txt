@@ -1,0 +1,78 @@
+A practical Onboard60 architecture for a pilot 55+ community in Florida can be built in three phases: registry, HOA governance, then equity/utility tokens, all on a single primary chain plus an off‑chain data layer.
+
+1. Base tech stack (Florida pilot)
+
+Primary chain:
+  Use a permissioned EVM chain (e.g., Polygon Supernet / OP Stack‑style rollup or a managed consortium chain) so you control fees, privacy, and governance, while staying Solidity‑compatible for tooling and audits.
+
+Identity & access:
+  Residents and family get non‑custodial wallets wrapped with email/phone login (e.g., Web3Auth‑style UX), plus KYC done once and anchored on‑chain as a verified role (owner, resident, caregiver, vendor).
+
+Off‑chain 
+  Use a conventional database (e.g., Postgres) and file storage (e.g., S3) for PHI‑adjacent and sensitive documents; only hashes and minimal pointers live on‑chain to avoid HIPAA and privacy problems.
+
+2. Phase 1 : Onboard60 Registry Layer
+
+Goal: A canonical, tamper‑evident registry for units, members, and rights (not money yet).
+
+Core smart contracts:
+  Unit Registry Contract: Each unit (lot, condo, home) is an NFT‑like record with metadata (address, type, occupancy status, permitted resident count, accessibility features).
+  Membership / Occupancy Contract: Maps people to units with roles: Owner, Life‑Lease Holder, Renter, Family Contact, Caregiver; tracks start/stop dates and reason for change (move‑in, care level change, death, transfer).
+
+Admin roles:
+  “Registrar” (Onboard60 or property manager) is analogous to the land‑inspector role from blockchain registry patterns; can approve transfers, move‑ins, and corrections under defined rules.
+
+Resident UX:
+   Simple portal: “My Home,” “My Household,” “My Contacts” pulling from smart contracts; residents never see raw transaction details unless they choose to.  
+
+What this unlocks:
+Single source of truth for “who lives where” with an immutable history, which future HOA logic and equity tokenization can trust.
+
+3. Phase 2 : Smart‑contract HOA / governance
+
+Goal: Turn CC&Rs, dues, and board actions into transparent, parameterized smart contracts.
+
+Token type 1 : Governance token (non‑transferable HOA voting units):
+  Issue soulbound governance tokens (one per unit, or proportional to square footage) to the wallet(s) designated as “current owner/occupant” by the registry.
+Tokens automatically move when occupancy/ownership changes in the registry, avoiding “lost” votes.  
+
+HOA smart contracts:
+Assessment Contract: Stores base dues per unit type, special assessments, due dates, and penalty logic; emits events for each billing cycle that the off‑chain billing system mirrors.
+  Governance / Voting Contract: Supports proposals (rule changes, budget approvals, capital projects), quorum thresholds, and weighted voting by governance tokens; board vs. community‑wide proposals use different thresholds.
+  Rules & Exceptions Contract:Encodes “soft” logic (e.g., noise rules, parking), but allows recorded board overrides for humanitarian or medical reasons (important in 55+ contexts), all auditable.
+
+Florida adaptation:
+  Align proposal and notice periods with Florida HOA/condo statutes; smart contracts store timestamps and resolution records to help prove statutory compliance in disputes.
+
+What this unlocks:
+Transparent history of dues changes, rule votes, and board decisions, which is powerful for trust‑building with seniors and their families.
+
+4. Phase 3 – Tokenized equity & utility for a 55+ community
+
+Goal: Add investment and service layers without overburdening residents.
+
+Token type 2 : Equity / “Community Share” token (security):
+  Use a Tokeny class or similar RWA engine to issue “security tokens” representing equity in the campus or in a dedicated property‑owning entity, with full KYC/AML and transfer‑restriction logic.
+Investor categories: developer/fund, family members, local impact investors, potentially residents (subject to suitability rules and U.S. securities exemptions).
+  Distributions: rent or “community surplus” flows off‑chain, with on‑chain records of declared distributions and each token holder’s entitlement.  
+Token type 3 Utility / service credits:
+ Non‑security  “utility tokens” or off‑chain points representing prepaid or earned benefits: transportation vouchers, wellness classes, guest‑suite nights, tech‑support hours. 
+
+  These are not meant to appreciate in value but to standardize and track service delivery, and could be partially auto‑granted to equity token holders as a “member benefit.”  
+
+Risk controls for seniors:
+Governance tokens are non‑transferable and do not equal financial equity.  
+Equity tokens can be limited to family or external investors, with clear disclaimers and optional “resident share” programs capped at modest amounts.
+Utility tokens never function as payment for rent or medical services, avoiding regulatory confusion.  
+
+5. Phased rollout plan in practice
+
+1. Year 1 Registry MVP (single property in Florida):
+   Implement registry contracts and resident portal.  
+   Integrate with property‑management software (payments, maintenance tickets) using on‑chain IDs, but keep money flows conventional.  
+2. Year 2 – HOA governance pilot:
+   Roll out governance tokens and basic voting (amenities hours, small rules) before touching dues/budgets.  
+   Gradually move assessments and budget approvals on‑chain once residents are comfortable and legal counsel signs off.  
+3. Year 3 – Equity + utility layer:
+   Launch a Reg D/Reg CF‑style offering of equity tokens in a new Onboard60‑branded community or expansion phase, using a compliant tokenization provider.
+   Add utility credits for wellness/transport as a “soft” loyalty and engagement layer.  
